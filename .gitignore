@@ -1,0 +1,9 @@
+# Godot files
+.godot/
+.nomedia
+.import/
+export.cfg
+export_credentials.cfg
+
+# Automatically generated translation files
+*.translation

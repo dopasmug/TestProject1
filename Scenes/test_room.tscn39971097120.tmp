@@ -1,0 +1,63 @@
+[gd_scene load_steps=8 format=3 uid="uid://cg1rfnns6agp8"]
+
+[ext_resource type="Environment" uid="uid://dsayafym017r2" path="res://Resources/default_env.tres" id="1_afs4w"]
+[ext_resource type="PackedScene" uid="uid://d1wjdo0cehfm5" path="res://Models/field1.fbx" id="2_3tvqv"]
+[ext_resource type="PackedScene" uid="uid://fls8cey4r6iu" path="res://Models/enemy.fbx" id="3_548gw"]
+[ext_resource type="Script" uid="uid://e155pwiixx2b" path="res://Scripts/player.gd" id="4_3tvqv"]
+[ext_resource type="PackedScene" uid="uid://bfyndnkq88lg3" path="res://Models/player.fbx" id="4_hjqbe"]
+[ext_resource type="Script" uid="uid://l5jci3vedon3" path="res://Scripts/debug_info.gd" id="6_548gw"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_afs4w"]
+radius = 0.42041016
+height = 1.4819336
+
+[node name="test_room" type="Node3D"]
+
+[node name="world_environment" type="WorldEnvironment" parent="."]
+environment = ExtResource("1_afs4w")
+
+[node name="field1" parent="." instance=ExtResource("2_3tvqv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.009060996, 0, 0.016087413)
+
+[node name="enemy" parent="." instance=ExtResource("3_548gw")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.306, 0.16779393, 2.1821737)
+
+[node name="sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.680414, -0.5551564, 0.47837034, 0.00836465, 0.64684707, 0.76257396, -0.7327802, 0.5228674, -0.4354801, 0, 13.637804, 4.555228)
+shadow_enabled = true
+shadow_blur = 0.5
+directional_shadow_blend_splits = true
+directional_shadow_pancake_size = 0.0
+
+[node name="player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2302866, -6.586)
+script = ExtResource("4_3tvqv")
+speed = null
+gravity = null
+jump_speed = null
+
+[node name="model" parent="player" instance=ExtResource("4_hjqbe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0004911423)
+
+[node name="capsule_shape" type="CollisionShape3D" parent="player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.73864174, 0)
+shape = SubResource("CapsuleShape3D_afs4w")
+debug_color = Color(0.9699785, 0, 0.5207714, 1)
+
+[node name="camera_viewpoint" type="Marker3D" parent="player"]
+transform = Transform3D(-1, -4.0367343e-08, -7.754495e-08, 0, 0.8870108, -0.4617486, 8.742278e-08, -0.4617486, -0.8870108, 0, 0, 0)
+
+[node name="camera" type="Camera3D" parent="player/camera_viewpoint"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 6.375, 0)
+current = true
+
+[node name="debug_info" type="CanvasLayer" parent="."]
+script = ExtResource("6_548gw")
+
+[node name="label" type="Label" parent="debug_info"]
+offset_left = 4.0
+offset_top = -1.0
+offset_right = 116.0
+offset_bottom = 25.0
+theme_override_font_sizes/font_size = 18
+text = "FPS"
